@@ -1,7 +1,6 @@
 '''
 Exercise 8
 Make a two-player Rock-Paper-Scissors game. 
-
 '''
 
 class Player:
