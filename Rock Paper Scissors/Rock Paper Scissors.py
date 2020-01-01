@@ -1,5 +1,5 @@
 '''
-Exercise 8
+Exercise 8 from http://www.practicepython.org/
 Make a two-player Rock-Paper-Scissors game. 
 '''
 
