@@ -7,7 +7,7 @@ def sieve(num):
     A = [True] * num
     for i in range(2, int(num ** 0.5)):
         if A[i]:
-            for j in range(i*2, num-1, i):
+            for j in range(i**2, num-1, i):
                 A[j] = False
     output = []
     for n in range(2,num):
