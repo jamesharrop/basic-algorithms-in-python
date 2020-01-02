@@ -24,8 +24,8 @@ def first_and_last(a):
 
     if len(a) < 2:
         raise IndexError
-    else:
-        return [a[0],a[-1]]
+
+    return [a[0],a[-1]]
 
 
 a = [5, 10, 15, 20, 25]
