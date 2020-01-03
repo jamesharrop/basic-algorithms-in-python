@@ -51,6 +51,7 @@ class Board:
             raise SuggestedMoveNotPossibleError('Invalid move: that square is already taken.')
 
     def check_who_wins(self):
+        # Returns int representing number of winning player, or zero if no winner
         def check_winner_for_3_squares(x: list):
             if x[0] == x[1] == x[2]:
                 return x[0]
@@ -72,6 +73,15 @@ class Board:
         winner.append(check_winner_for_3_squares(x))
 
         return sum(winner)
+
+    def check_if_board_is_full(self):
+        output = 1
+        for row in self.game:
+            for square in row:
+                output *= square
+        # If any zeros on board, i.e. empty squares -> then output = zero
+        return output
+
 
 class Player:
     # Handles interaction with players
@@ -106,7 +116,7 @@ class TicTacToeGame:
 
         # Note: could probably simplify the flow here
         winner = 0
-        while winner == 0:
+        while winner == 0 and not self.board.check_if_board_is_full():
             for player in self.players:
                 while True: # Keep asking for a move until player enters a valid move
                     self.board.draw_board()
@@ -120,6 +130,10 @@ class TicTacToeGame:
                 winner = self.board.check_who_wins()
                 if winner !=0:
                     break
+                if self.board.check_if_board_is_full():
+                    self.board.draw_board
+                    print("It's a draw.")
+                    exit()
 
         self.board.draw_board()
         self.players[winner-1].say_has_won()
