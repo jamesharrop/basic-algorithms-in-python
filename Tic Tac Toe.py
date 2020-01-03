@@ -1,3 +1,7 @@
+'''
+A simple version of Tic Tac Toe using terminal input.
+'''
+
 from collections import namedtuple
 
 BoardPosition = namedtuple('BoardPosition','row column')
