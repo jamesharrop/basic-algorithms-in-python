@@ -26,24 +26,30 @@ class Player:
     def __init__(self):
         print("Welcome to this game.")
         self.guesses = []
+        self.guesses_left = 6
     
     def print_how_many_guesses_left(self):
-        print(f"You have {6-len(self.guesses)} guesses left.")
+        if self.guesses_left>1:
+            print(f"You have {self.guesses_left} guesses left.")
+        else:
+            print(f"You have {self.guesses_left} guess left.")
 
     def ask_for_guess(self) -> str:
-        guess = input("Guess a letter: ")
-        # Input validation goes here
+        guess = input("Guess a letter: ").upper()
+        if guess in self.guesses:
+            return None
+        self.guesses.append(guess)
         return guess
 
-    def letter_is_already_guessed(self, guess) -> bool:
-        return (guess in self.guesses)
-    
     def display_whether_guess_correct(self, correct: bool):
         if correct:
             print("Correct")
         else:
             print("That's not in the word")
     
+    def print_message(self, message):
+        print(message)
+
 class Board:
     def __init__(self):
         self.word = ""
@@ -80,21 +86,31 @@ class Board:
         print("guessed:", self.guessed)
 
 if __name__ == "__main__":    
+    print("\n")
     p = Player()
     b = Board()
     b.choose_random_word()
-    b.display_word()
+
     while True:
-        b.debug_print_out_variables()
+        b.display_word()
+        # b.debug_print_out_variables()
         while True:
             p.print_how_many_guesses_left()
             guess = p.ask_for_guess()
-            if p.letter_is_already_guessed(guess):
-                print("You already guessed that letter - have another go")
+            if guess is None:
+                p.print_message("You already guessed that letter - have another go")
             else:
                 break
         correct = b.check_if_guess_in_word(guess)
+        print("\n")
         p.display_whether_guess_correct(correct)
+        if not correct:
+            p.guesses_left -= 1
         if b.all_letters_have_been_guessed():
-            print("All guessed")
+            p.print_message("All guessed")
             break
+        if p.guesses_left == 0:
+            p.print_message("All guesses used up")
+            break
+
+p.print_message(f"The word was: {b.word}")
