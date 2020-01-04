@@ -28,7 +28,7 @@ class Player:
         self.guesses = []
     
     def print_how_many_guesses_left(self):
-        print(f"You have {len(6-self.guesses)} guesses left.")
+        print(f"You have {6-len(self.guesses)} guesses left.")
 
     def ask_for_guess(self) -> str:
         guess = input("Guess a letter: ")
@@ -47,22 +47,21 @@ class Player:
 class Board:
     def __init__(self):
         self.word = ""
-        self.guessed = []
+        self.guessed = [] # A list of Bools corresponding to which letters in word have been guessed
 
     def choose_random_word(self):
         with open("sowpods.txt", "r") as f:
             word_list = f.readlines()
             self.word = random.choice(word_list).strip()
             self.guessed = [False] * len(self.word)
-            print("*",self.word,"*")
-            print(self.guessed)
 
     def display_word(self):
-        for letter in self.word:
-            if self.guessed:
+        for index, letter in enumerate(self.word):
+            if self.guessed[index]:
                 print(letter, end="")
             else:
                 print("_", end="")
+            print(" ", end="")
         print("\n")
     
     def check_if_guess_in_word(self, guess):
@@ -73,7 +72,29 @@ class Board:
                 is_in_word = True
         return(is_in_word)
 
+    def all_letters_have_been_guessed(self):
+        return (not any(letter == False for letter in self.guessed))
+
+    def debug_print_out_variables(self):
+        print("word:", self.word)
+        print("guessed:", self.guessed)
+
 if __name__ == "__main__":    
     p = Player()
     b = Board()
     b.choose_random_word()
+    b.display_word()
+    while True:
+        b.debug_print_out_variables()
+        while True:
+            p.print_how_many_guesses_left()
+            guess = p.ask_for_guess()
+            if p.letter_is_already_guessed(guess):
+                print("You already guessed that letter - have another go")
+            else:
+                break
+        correct = b.check_if_guess_in_word(guess)
+        p.display_whether_guess_correct(correct)
+        if b.all_letters_have_been_guessed():
+            print("All guessed")
+            break
