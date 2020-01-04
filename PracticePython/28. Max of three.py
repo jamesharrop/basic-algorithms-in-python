@@ -19,12 +19,25 @@ def max_of_three(a, b, c):
         else:
             return c
 
-def test_max_of_three():
+def max_of_arbitrary_sized_list(a: list):
+    max = a[0]
+    for number in a:
+        if number > max:
+            max = number
+    return max
+
+def test_it():
     a = random.randint(-100, 100)
     b = random.randint(-100, 100)
     c = random.randint(-100, 100)
     if max([a, b, c]) != (max_of_three(a,b,c)):
         print(a, b, c)
+    else:
+        print(".", end = "")
+    if max([a, b, c]) != (max_of_arbitrary_sized_list([a,b,c])):
+        print(a, b, c)
+    else:
+        print("_", end = "")
 
 for _ in range(0, 100):
-    test_max_of_three()
+    test_it()
