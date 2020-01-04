@@ -12,5 +12,5 @@ word_list = []
 with open("sowpods.txt", "r") as f:
     word_list = f.readlines()
 
-a = random.choice(word_list)
+a = random.choice(word_list).strip()
 print(a)
