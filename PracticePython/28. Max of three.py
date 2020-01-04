@@ -26,5 +26,5 @@ def test_max_of_three():
     if max([a, b, c]) != (max_of_three(a,b,c)):
         print(a, b, c)
 
-for _ in range(0,100):
+for _ in range(0, 100):
     test_max_of_three()
